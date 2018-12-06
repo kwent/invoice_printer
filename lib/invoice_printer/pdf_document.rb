@@ -597,9 +597,9 @@ module InvoicePrinter
     # Build the following table for document items:
     #
     #   =================================================================
-    #   |Item |  Quantity|  Unit|  Price per item|  Tax|  Total per item|
-    #   |-----|----------|------|----------------|-----|----------------|
-    #   |x    |         2|    hr|              $2|   $1|              $4|
+    #   |Quantity |  Item|  Unit|  Price per item|  Tax|  Total per item|
+    #   |---------|------|------|----------------|-----|----------------|
+    #   |        2|x     |    hr|              $2|   $1|              $4|
     #   =================================================================
     #
     # If a specific column miss data, it's omittted.
@@ -608,10 +608,10 @@ module InvoicePrinter
     # Using sublabels one can change the table to look as:
     #
     #   =================================================================
-    #   |Item |  Quantity|  Unit|  Price per item|  Tax|  Total per item|
-    #   |it.  |      nom.|   un.|            ppi.|   t.|            tpi.|
-    #   |-----|----------|------|----------------|-----|----------------|
-    #   |x    |         2|    hr|              $2|   $1|              $4|
+    #   |Quantity |  Item|  Unit|  Price per item|  Tax|  Total per item|
+    #   |nom.     |   it.|   un.|            ppi.|   t.|            tpi.|
+    #   |---------|------|------|----------------|-----|----------------|
+    #   |        2|x     |    hr|              $2|   $1|              $4|
     #   =================================================================
     def build_items
       @pdf.move_down(23 + @push_items_table + @push_down)
@@ -625,8 +625,8 @@ module InvoicePrinter
         row_colors: ['F5F5F5', nil],
         width: x(540, 2),
         align: {
-          0 => :left,
-          1 => :right,
+          0 => :right,
+          1 => :left,
           2 => :right,
           3 => :right,
           4 => :right,
@@ -644,8 +644,8 @@ module InvoicePrinter
     def determine_items_structure
       items_params = {}
       @document.items.each do |item|
-        items_params[:names] = true unless item.name.empty?
         items_params[:quantities] = true unless item.quantity.empty?
+        items_params[:names] = true unless item.name.empty?
         items_params[:units] = true unless item.unit.empty?
         items_params[:prices] = true unless item.price.empty?
         items_params[:taxes] = true unless item.tax.empty?
@@ -660,8 +660,8 @@ module InvoicePrinter
     def build_items_data(items_params)
       @document.items.map do |item|
         line = []
-        line << item.name if items_params[:names]
         line << item.quantity if items_params[:quantities]
+        line << item.name if items_params[:names]
         line << item.unit if items_params[:units]
         line << item.price if items_params[:prices]
         line << item.tax if items_params[:taxes]
@@ -675,8 +675,8 @@ module InvoicePrinter
     # Include only relevant headers
     def build_items_header(items_params)
       headers = []
-      headers << { text: label_with_sublabel(:item) } if items_params[:names]
       headers << { text: label_with_sublabel(:quantity) } if items_params[:quantities]
+      headers << { text: label_with_sublabel(:item) } if items_params[:names]
       headers << { text: label_with_sublabel(:unit) } if items_params[:units]
       headers << { text: label_with_sublabel(:price_per_item) } if items_params[:prices]
       headers << { text: label_with_sublabel(:tax) } if items_params[:taxes]
