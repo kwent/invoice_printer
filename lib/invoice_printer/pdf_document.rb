@@ -270,7 +270,7 @@ module InvoicePrinter
           width: x(240)
         )
       end
-      @pdf.stroke_rounded_rectangle([0, y(670) - @push_down], x(266), y(150), 6)
+      @pdf.stroke_rounded_rectangle([0, y(670) - @push_down], x(266), y(120), 6)
     end
 
     # Build the following purchaser box:
@@ -359,7 +359,7 @@ module InvoicePrinter
           width: x(240)
         )
       end
-      @pdf.stroke_rounded_rectangle([x(274), y(670) - @push_down], x(266), y(150), 6)
+      @pdf.stroke_rounded_rectangle([x(274), y(670) - @push_down], x(266), y(120), 6)
     end
 
     # Build the following payment box:
@@ -377,7 +377,7 @@ module InvoicePrinter
     # If the bank account number is not provided include a note about payment
     # in cash.
     def build_payment_method_box
-      @push_down -= 3
+      @push_down -= 33
 
       unless letter?
         @push_items_table += 18
