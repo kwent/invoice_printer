@@ -38,6 +38,7 @@ module InvoicePrinter
       due_date: 'Due date',
       item: 'Item',
       quantity: 'Quantity',
+      done: 'Done',
       unit: 'Unit',
       price_per_item: 'Price per item',
       tax: 'Tax',
@@ -632,7 +633,8 @@ module InvoicePrinter
           4 => :right,
           5 => :right,
           6 => :right,
-          7 => :right
+          7 => :right,
+          8 => :right
         },
         font_size: 10
       }
@@ -668,6 +670,7 @@ module InvoicePrinter
         line << item.tax2 if items_params[:taxes2]
         line << item.tax3 if items_params[:taxes3]
         line << item.amount if items_params[:amounts]
+        line << "" # Empty line
         line
       end
     end
@@ -683,6 +686,7 @@ module InvoicePrinter
       headers << { text: label_with_sublabel(:tax2) } if items_params[:taxes2]
       headers << { text: label_with_sublabel(:tax3) } if items_params[:taxes3]
       headers << { text: label_with_sublabel(:amount) } if items_params[:amounts]
+      headers << { text: label_with_sublabel(:done) }
       headers
     end
 
