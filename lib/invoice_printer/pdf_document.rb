@@ -185,8 +185,8 @@ module InvoicePrinter
       @pdf.text_box(
         @document.number,
         size: 20,
-        at: [x(245), y(720) - @push_down],
-        width: x(200),
+        at: [x(200), y(720) - @push_down],
+        width: x(245),
         align: :right
       )
 
