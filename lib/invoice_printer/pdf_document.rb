@@ -1,5 +1,6 @@
 require 'prawn'
 require 'prawn/table'
+require 'prawn/qrcode'
 
 module InvoicePrinter
   # Prawn PDF representation of InvoicePrinter::Document
@@ -171,11 +172,21 @@ module InvoicePrinter
         )
       end
 
+      if used? @document.qr_code_url
+        @pdf.print_qr_code(
+          @document.qr_code_url,
+          stroke: false,
+          extent: 76,
+          pos: [x(400), y(745) - @push_down],
+          align: :right
+          )
+      end
+
       @pdf.text_box(
         @document.number,
         size: 20,
-        at: [x(240), y(720) - @push_down],
-        width: x(300),
+        at: [x(245), y(720) - @push_down],
+        width: x(200),
         align: :right
       )
 

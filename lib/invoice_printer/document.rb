@@ -35,7 +35,8 @@ module InvoicePrinter
   #       InvoicePrinter::Document::Item.new,
   #       InvoicePrinter::Document::Item.new
   #     ],
-  #     note: 'A note at the end.'
+  #     note: 'A note at the end.',
+  #     qr_code_url: 'A url attached to the qr code.'
   #   )
   #
   # +amount should equal the sum of all item's +amount+,
@@ -79,7 +80,8 @@ module InvoicePrinter
                 :account_swift,
                 # Collection of InvoicePrinter::Invoice::Items
                 :items,
-                :note
+                :note,
+                :qr_code_url
 
     class << self
       def from_json(json)
@@ -114,6 +116,7 @@ module InvoicePrinter
           account_iban:                 json['account_iban'],
           account_swift:                json['account_swift'],
           note:                         json['note'],
+          qr_code_url:                  json['qr_code_url'],
 
           items:                        (json['items'] || []).map { |item_json| Item.from_json(item_json) }
         )
@@ -150,7 +153,8 @@ module InvoicePrinter
                    account_iban:                 nil,
                    account_swift:                nil,
                    items:                        nil,
-                   note:                         nil)
+                   note:                         nil,
+                   qr_code_url:                  nil)
 
       @number                       = String(number)
       @provider_name                = String(provider_name)
@@ -183,6 +187,7 @@ module InvoicePrinter
       @account_swift                = String(account_swift)
       @items                        = items
       @note                         = String(note)
+      @qr_code_url                  = String(qr_code_url)
 
       raise InvalidInput, 'items are not only a type of InvoicePrinter::Document::Item' \
         unless @items.select{ |i| !i.is_a?(InvoicePrinter::Document::Item) }.empty?
@@ -220,7 +225,8 @@ module InvoicePrinter
         'account_iban':                 @account_iban,
         'account_swift':                @account_swift,
         'items':                        @items.map(&:to_h),
-        'note':                         @note
+        'note':                         @note,
+        'qr_code_url':                  @qr_code_url
       }
     end
 
